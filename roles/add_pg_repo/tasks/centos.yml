@@ -1,0 +1,8 @@
+- name: install repository postgresql
+  yum:
+    name: 'https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm'
+
+- name: Disable the built-in PostgreSQL module (CentOS8)
+  command:
+    cmd: dnf -qy module disable postgresql
+  when: (ansible_facts['distribution_major_version'] == '8')

@@ -69,9 +69,14 @@ standby_mode = on
 restore_command = 'cp /wal_archive_location/%f %p'
 
 #####2. Потоковая репликация
-
-
-
+#####2.1 Слоты ркпликации
+создание - SELECT * FROM pg_create_physical_replication_slot('node_a_slot');
+Просмотр - SELECT slot_name, slot_type, active FROM pg_replication_slots;
+ Для настройки резервного сервера на использование этого слота primary_slot_name должно быть настроено в конфигурации recovery.conf резервного.
+ Вот простейший пример: 
+   standby_mode = 'on'
+   primary_conninfo = 'host=192.168.1.50 port=5432 user=foo password=foopass'
+   primary_slot_name = 'node_a_slot'
 
 
 ####Регламентные задачи

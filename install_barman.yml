@@ -1,0 +1,6 @@
+- name: intall barman
+  hosts: barman
+  become: yes
+  roles:
+    - add_pg_repo
+    - install_barman

@@ -1,0 +1,9 @@
+- name:  add repository postgresql
+  template:
+    src: pgdg.list.j2
+    dest: /etc/apt/sources.list.d/pgdg.list
+
+- name: Import the repository signing key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc 
+    state: present

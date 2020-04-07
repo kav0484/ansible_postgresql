@@ -1,0 +1,8 @@
+- name: install pg
+  hosts: ubuntu18-pg
+  become: True
+  vars:
+    pg_version: 10
+  roles:
+    - add_pg_repo
+    - install_pg

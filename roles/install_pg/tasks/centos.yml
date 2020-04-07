@@ -1,0 +1,13 @@
+- name: install postgresql
+  yum:
+    name: 
+      - postgresql{{ pg_version }}
+      - postgresql{{ pg_version }}-server
+
+- name: initdb
+  command:
+    cmd: /usr/pgsql-{{ pg_version }}/bin/postgresql-{{ pg_version }}-setup initdb
+  notify:
+    - postgresql start
+  ignore_errors: yes
+  

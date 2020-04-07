@@ -1,0 +1,22 @@
+- name: test
+  hosts: c7pg-1c
+  tasks:
+    - find:
+        paths: /tmp/postgresql
+        patterns: '*.rpm'
+        recurse: yes
+      register: output
+
+    - name: Initialize an empty list
+      set_fact:
+        Files: []
+        
+    - name: Adding Files to the LIST
+      no_log: true
+      set_fact:
+        Files: "{{ Files + [item.path]}}"
+      with_items: "{{ output.files }}"
+      ignore_errors: yes
+
+    - debug: var=Files
+      

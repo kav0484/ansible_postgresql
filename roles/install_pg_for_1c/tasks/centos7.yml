@@ -1,0 +1,49 @@
+- name: install unzip,tar, bzip2
+  yum:
+    name:
+      - unzip
+      - bzip2
+      - tar
+
+- name: mkdir /tmp/postgresql
+  file:
+    path: /tmp/postgresql
+    state: directory
+
+- name: unarchive postgresql
+  unarchive:
+    src: '{{ pg_archive }}'
+    dest: /tmp/postgresql
+
+- name: list rpm 
+  find:
+    paths: /tmp/postgresql
+    patterns: '*.rpm'
+    recurse: yes
+  register: list_rpm
+
+- name: Initialize an empty list
+  set_fact:
+    Files: []
+
+- name: Adding rpm file to the LIST
+  no_log: True
+  set_fact:
+    Files: "{{ Files + [item.path] }}"
+  with_items: "{{ list_rpm.files }}"
+
+- name: install rpm packages
+  yum:
+    name: "{{ Files }}"
+    state: present
+
+- name:  initialize the database 
+  command:
+    cmd: /usr/pgsql-{{ pg_version }}/bin/postgresql-{{ pg_version }}-setup initdb
+  ignore_errors: yes
+
+- name: Enable & start service Postgresql
+  service:
+    name: postgresql-{{ pg_version }}
+    state: started
+    enabled: yes

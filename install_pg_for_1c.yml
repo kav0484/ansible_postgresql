@@ -1,0 +1,8 @@
+- name: playbook for test
+  hosts: ubuntu18-pg1c
+  become: yes
+  vars:
+    pg_archive: 'postgresql_11.5_19.1C_x86_64_rpm.tar.bz2'
+    pg_version: 11
+  roles:
+    - install_pg_for_1c

@@ -1,0 +1,10 @@
+- name: install barman on centos
+  yum:
+    name: barman
+  when: ansible_facts['distribution']|lower == "centos"
+
+- name: install barman on ubuntu
+  apt:
+    name: barman
+    update_cache: yes
+  when: ansible_facts['distribution']|lower == "ubuntu"

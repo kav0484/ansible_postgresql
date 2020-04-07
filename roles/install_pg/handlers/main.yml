@@ -1,0 +1,6 @@
+- name: postgresql start
+  service:
+    name: postgresql-{{ pg_version }}
+    state: started
+    enabled: yes
+
